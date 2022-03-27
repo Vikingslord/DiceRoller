@@ -2,8 +2,7 @@ package com.example.diceroller
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -12,42 +11,38 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val rollButton: Button = findViewById(R.id.button)
-        val countButton: Button = findViewById(R.id.countUp)
+        val resetButton: Button = findViewById(R.id.reset)
 
         rollButton.setOnClickListener {
             rollDice()
         }
 
-        countButton.setOnClickListener {
-            countUp()
+        resetButton.setOnClickListener {
+            reset()
         }
     }
 
     private fun rollDice() {
+
         val randomInt = (1..6).random()
 
-        val resultText: TextView = findViewById(R.id.result_text)
-        resultText.text = randomInt.toString()
+        val diceImage: ImageView = findViewById(R.id.dice_image)
+
+        val drawableResource = when (randomInt) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+
+        diceImage.setImageResource(drawableResource) //updating source of ImageView
     }
 
-    private fun countUp() {
+    private fun reset() {
+        val diceImage: ImageView = findViewById(R.id.dice_image)
 
-        val resultText: TextView = findViewById(R.id.result_text)
-        val value = 1
-
-        if (resultText.text == "Hello World") {
-            resultText.text = value.toString()
-        } else {
-
-            var resultInt = resultText.text.toString().toInt()
-
-            if (resultInt < 6) {
-                resultInt++
-                resultText.text = resultInt.toString()
-
-                val toast = Toast.makeText(this, "Limits Reached!", Toast.LENGTH_SHORT)
-                toast.show()
-            }
-        }
+        diceImage.setImageResource(R.drawable.empty_dice)
     }
 }
